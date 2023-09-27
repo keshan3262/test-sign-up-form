@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { signUpFormReducer } from '../slices/sign-up-form';
+import { signUpFormReducer } from './slices/sign-up-form';
 
 export const store = configureStore({
   reducer: {

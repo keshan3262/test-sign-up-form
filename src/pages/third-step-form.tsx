@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { RawSignUpFormValues } from '../types/sign-up';
+import { RawSignUpFormValues, SignUpFormValues } from '../types/sign-up';
 import { SignUpForm } from '../layouts/sign-up-form';
 import { useAppDispatch } from '../hooks/redux';
 import { submitPartAction, useWholeFormValues } from '../slices/sign-up-form';
@@ -67,7 +67,23 @@ export const ThirdStepForm = () => {
 
   const onSubmit = useMemo(() => handleSubmit((values) => {
     dispatch(submitPartAction(values));
-    console.log({ ...wholeFormValues, ...values });
+    const { fullName, paymentMethodType, payPalEmail, creditCardNumber, ...restValues } =
+      { ...wholeFormValues, ...values } as RawSignUpFormValues;
+    // Logic for the case of "oglu" at the end of the name
+    const [firstName, ...restName] = fullName.split(/[\s\u00a0]+/g);
+    const finalValues: SignUpFormValues = {
+      ...restValues,
+      paymentMethod: paymentMethodType === 'pp' ? {
+        type: 'pp',
+        email: payPalEmail!
+      } : {
+        type: 'cc',
+        cardNumber: creditCardNumber!
+      },
+      firstName,
+      lastName: restName.join(' ')
+    };
+    console.log(finalValues);
   }), [handleSubmit, dispatch, wholeFormValues]);
 
   useRedirectIfInvalid('/', previousStepsSchemas);
