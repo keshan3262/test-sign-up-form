@@ -11,6 +11,7 @@ import { SimpleInput } from '../components/simple-input';
 import { useDefaultFormValues, useRedirectIfInvalid } from '../hooks/sign-up-form';
 import { firstStepValidationSchema } from './first-step-form';
 import { secondStepValidationSchema } from './second-step-form';
+import './third-step-form.css';
 
 type ThirdStepFormValues = Pick<RawSignUpFormValues, 'paymentMethodType' | 'payPalEmail' | 'creditCardNumber'>; 
 
@@ -75,7 +76,7 @@ export const ThirdStepForm = () => {
     <SignUpForm onSubmit={onSubmit}>
       <fieldset>
         <legend>Please choose payment method:</legend>
-        <div>
+        <div className="flex-flex-col">
           <SimpleInput
             register={register}
             formState={formState}

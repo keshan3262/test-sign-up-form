@@ -14,9 +14,9 @@ interface SimpleInputProps<TFieldValues extends FieldValues> {
 export const SimpleInput = <TFieldValues extends FieldValues>(
   { register, formState, name, id = name, label, type, value, showError = true }: SimpleInputProps<TFieldValues>
 ) => (
-  <>
+  <div>
     <label htmlFor={id}>{label}</label>
     <input {...register(name)} id={id} type={type} value={value} />
     {showError && <p>{formState.errors[name]?.message?.toString() ?? null}</p>}
-  </>
+  </div>
 );
